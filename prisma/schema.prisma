@@ -1,0 +1,182 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+enum TaskStatus {
+  inbox
+  next_action
+  completed
+}
+
+enum Priority {
+  low
+  medium
+  high
+}
+
+enum HabitFrequency {
+  daily
+  weekly
+}
+
+enum GoalType {
+  task
+  habit
+  reading
+}
+
+enum Context {
+  work
+  personal
+  learning
+  fitness
+  other
+}
+
+///////////////////////
+// MODELS
+///////////////////////
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  avatar        String?
+  points        Int      @default(0)
+  achievements  String[]
+
+  tasks         Task[]
+  habits        Habit[]
+  goals         Goal[]
+  books         Book[]
+  pomodoros     PomodoroSession[]
+  notifications Notification[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  color       String?
+
+  tasks       Task[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Task {
+  id          String      @id @default(uuid())
+  title       String
+  description String?
+  dueDate     DateTime?
+  priority    Priority
+  completed   Boolean     @default(false)
+  status      TaskStatus
+  context     Context
+
+  user        User        @relation(fields: [userId], references: [id])
+  userId      String
+
+  project     Project?    @relation(fields: [projectId], references: [id])
+  projectId   String?
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([status])
+}
+
+model Habit {
+  id             String         @id @default(uuid())
+  name           String
+  frequency      HabitFrequency
+  streak         Int            @default(0)
+  completedToday Boolean        @default(false)
+  color          String?
+
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([userId])
+}
+
+model Goal {
+  id        String    @id @default(uuid())
+  title     String
+  type      GoalType
+  target    Int
+  current   Int       @default(0)
+  deadline  DateTime?
+
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Book {
+  id             String   @id @default(uuid())
+  title          String
+  author         String
+  totalPages     Int
+  completedPages Int      @default(0)
+  notes          String?
+  summary        String?
+
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model PomodoroSession {
+  id          String   @id @default(uuid())
+  duration    Int      // minutes
+  completedAt DateTime
+  taskTitle   String
+
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  message   String
+  read      Boolean  @default(false)
+
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
