@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import type { Request, Response } from "express";
+import { sendResponse } from "../../utils/sendResponse";
 import { AuthService } from "./auth.servic";
 
 const signUpUser = async (req: Request, res: Response) => {
@@ -11,7 +12,9 @@ const signUpUser = async (req: Request, res: Response) => {
     password: hashedPassword,
     avatar: avatar,
   });
-  res
-    .status(201)
-    .json({ message: "User registered successfully", user: newUser });
+  sendResponse(res, {
+    statusCode: 201,
+    message: "User registered successfully",
+    data: newUser,
+  });
 };
