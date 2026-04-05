@@ -11,6 +11,16 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+enum Role {
+  USER
+  ADMIN
+}
+enum Status {
+  ACTIVE
+  INACTIVE
+  PENDING
+  BANNED
+}
 enum TaskStatus {
   inbox
   next_action
@@ -42,9 +52,7 @@ enum Context {
   other
 }
 
-///////////////////////
-// MODELS
-///////////////////////
+
 
 model User {
   id            String   @id @default(uuid())
@@ -53,8 +61,10 @@ model User {
   password      String
   avatar        String?
   points        Int      @default(0)
+  role         Role     @default(USER)
+  status       Status   @default(ACTIVE)
   achievements  String[]
-
+  
   tasks         Task[]
   habits        Habit[]
   goals         Goal[]

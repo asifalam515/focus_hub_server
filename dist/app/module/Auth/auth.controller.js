@@ -16,4 +16,7 @@ const signUpUser = async (req, res) => {
         data: newUser,
     });
 };
+export const AuthController = {
+    signUpUser,
+};
 //# sourceMappingURL=auth.controller.js.map

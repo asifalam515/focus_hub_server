@@ -3,12 +3,13 @@ const signUpUser = async (payload) => {
     const existingUser = await prisma.user.findUnique({
         where: { email: payload.email },
     });
-    if (!existingUser) {
-        await prisma.user.create({
-            data: { payload },
-        });
+    if (existingUser) {
+        throw new Error("User already exists");
     }
-    return signUpUser;
+    const newUser = await prisma.user.create({
+        data: payload,
+    });
+    return newUser;
 };
 export const AuthService = {
     signUpUser,

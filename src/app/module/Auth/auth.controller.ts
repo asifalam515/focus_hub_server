@@ -5,6 +5,7 @@ import { AuthService } from "./auth.servic";
 
 const signUpUser = async (req: Request, res: Response) => {
   const { email, password, name, avatar } = req.body;
+  console.log(email, password, name);
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = await AuthService.signUpUser({
     name: name,

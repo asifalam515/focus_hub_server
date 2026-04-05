@@ -1,4 +1,10 @@
 -- CreateEnum
+CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+
+-- CreateEnum
+CREATE TYPE "Status" AS ENUM ('ACTIVE', 'INACTIVE', 'PENDING', 'BANNED');
+
+-- CreateEnum
 CREATE TYPE "TaskStatus" AS ENUM ('inbox', 'next_action', 'completed');
 
 -- CreateEnum
@@ -21,6 +27,8 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "avatar" TEXT,
     "points" INTEGER NOT NULL DEFAULT 0,
+    "role" "Role" NOT NULL DEFAULT 'USER',
+    "status" "Status" NOT NULL DEFAULT 'ACTIVE',
     "achievements" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
