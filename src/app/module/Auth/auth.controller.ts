@@ -18,3 +18,7 @@ const signUpUser = async (req: Request, res: Response) => {
     data: newUser,
   });
 };
+
+export const AuthController = {
+  signUpUser,
+};

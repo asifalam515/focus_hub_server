@@ -2,6 +2,7 @@ import cors from "cors";
 import type { Application, Request, Response } from "express";
 import express from "express";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
+import { AuthRouter } from "./app/module/Auth/auth.router";
 const app: Application = express();
 const port = 5000; // The port your express server will be running on.
 
@@ -12,6 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 // Basic route
+// auth router
+app.use("/api/v1/auth", AuthRouter);
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript + Express!");
 });
