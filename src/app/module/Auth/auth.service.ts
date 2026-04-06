@@ -62,10 +62,17 @@ const getUserFromToken = async (token: string) => {
     throw new Error("Invalid token");
   }
 };
-
+const updateUserProfile = async (userId: string, payload: any) => {
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: payload,
+  });
+  return updatedUser;
+};
 export const AuthService = {
   signUpUser,
   loginUser,
   logOutUser,
   getUserFromToken,
+  updateUserProfile,
 };

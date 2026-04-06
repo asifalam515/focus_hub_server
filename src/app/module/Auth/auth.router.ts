@@ -6,5 +6,6 @@ router.post("/signup", AuthController.signUpUser);
 router.post("/login", AuthController.loginUser);
 router.post("/logout", AuthController.logOutUser);
 router.get("/me", auth(Role.user), AuthController.getUserFromToken);
+router.patch("/me", auth(Role.user), AuthController.updateUserProfile);
 
 export const AuthRouter = router;

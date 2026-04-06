@@ -58,10 +58,30 @@ const getUserFromToken = async (req: Request, res: Response) => {
     });
   }
 };
+const updateUserProfile = async (req: Request, res: Response) => {
+  const userId = req.user?.id;
+  if (!userId) {
+    return sendResponse(res, {
+      statusCode: 401,
+      message: "Unauthorized: user not found in token",
+    });
+  }
+  const { name, avatar } = req.body;
+  const updatedUser = await AuthService.updateUserProfile(userId, {
+    name,
+    avatar,
+  });
+  sendResponse(res, {
+    statusCode: 200,
+    message: "User profile updated successfully",
+    data: updatedUser,
+  });
+};
 
 export const AuthController = {
   signUpUser,
   loginUser,
   logOutUser,
   getUserFromToken,
+  updateUserProfile,
 };
