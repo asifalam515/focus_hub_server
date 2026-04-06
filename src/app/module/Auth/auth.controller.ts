@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import type { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
-import { AuthService } from "./auth.servic";
+import { AuthService } from "./auth.service";
 
 const signUpUser = async (req: Request, res: Response) => {
   const { email, password, name, avatar } = req.body;
