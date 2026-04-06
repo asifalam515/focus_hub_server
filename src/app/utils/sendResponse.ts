@@ -1,6 +1,7 @@
 import type { Response } from "express";
 
 type TSendResponse<T> = {
+  success: true | false;
   statusCode: number;
   message: string;
   data?: T;
@@ -18,7 +19,7 @@ export const sendResponse = <T>(
   const { statusCode, message, data, meta } = payload;
 
   return res.status(statusCode).json({
-    success: true,
+    success: payload.success,
     message,
     meta,
     data,

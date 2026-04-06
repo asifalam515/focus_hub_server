@@ -5,7 +5,6 @@ import { AuthService } from "./auth.service";
 
 const signUpUser = async (req: Request, res: Response) => {
   const { email, password, name, avatar } = req.body;
-  console.log(email, password, name);
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = await AuthService.signUpUser({
     name: name,
@@ -14,6 +13,7 @@ const signUpUser = async (req: Request, res: Response) => {
     avatar: avatar,
   });
   sendResponse(res, {
+    success: true,
     statusCode: 201,
     message: "User registered successfully",
     data: newUser,
@@ -23,6 +23,7 @@ const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const result = await AuthService.loginUser({ email, password });
   sendResponse(res, {
+    success: true,
     statusCode: 200,
     message: "User logged in successfully",
     data: result,
@@ -31,6 +32,7 @@ const loginUser = async (req: Request, res: Response) => {
 const logOutUser = async (req: Request, res: Response) => {
   const result = await AuthService.logOutUser({});
   sendResponse(res, {
+    success: true,
     statusCode: 200,
     message: "User logged out successfully",
     data: result,
@@ -42,6 +44,7 @@ const getUserFromToken = async (req: Request, res: Response) => {
     return sendResponse(res, {
       statusCode: 401,
       message: "Unauthorized: token is missing",
+      success: false,
     });
   }
   try {
@@ -50,9 +53,11 @@ const getUserFromToken = async (req: Request, res: Response) => {
       statusCode: 200,
       message: "User data retrieved successfully",
       data: userData,
+      success: true,
     });
   } catch (error: any) {
     sendResponse(res, {
+      success: false,
       statusCode: 401,
       message: "Unauthorized: invalid token",
     });
@@ -62,6 +67,7 @@ const updateUserProfile = async (req: Request, res: Response) => {
   const userId = req.user?.id;
   if (!userId) {
     return sendResponse(res, {
+      success: false,
       statusCode: 401,
       message: "Unauthorized: user not found in token",
     });
@@ -72,6 +78,7 @@ const updateUserProfile = async (req: Request, res: Response) => {
     avatar,
   });
   sendResponse(res, {
+    success: true,
     statusCode: 200,
     message: "User profile updated successfully",
     data: updatedUser,
