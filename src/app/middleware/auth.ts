@@ -17,7 +17,7 @@ const extractTokenFromHeader = (authorizationHeader: string | undefined) => {
   return token.replace(/^['\"]|['\"]$/g, "").trim();
 };
 
-const auth = (...roles: Role[]) => {
+export const auth = (...roles: Role[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       // get the token

@@ -62,6 +62,7 @@ const getUserFromToken = async (token: string) => {
     throw new Error("Invalid token");
   }
 };
+
 export const AuthService = {
   signUpUser,
   loginUser,
