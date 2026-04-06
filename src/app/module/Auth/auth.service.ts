@@ -69,6 +69,7 @@ const updateUserProfile = async (userId: string, payload: any) => {
   });
   return updatedUser;
 };
+
 export const AuthService = {
   signUpUser,
   loginUser,
