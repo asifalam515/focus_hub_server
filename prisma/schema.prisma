@@ -173,7 +173,7 @@ model Book {
 model PomodoroSession {
   id          String   @id @default(uuid())
   duration    Int      // minutes
-  completedAt DateTime
+  completedAt DateTime?
   taskTitle   String
 
   user        User     @relation(fields: [userId], references: [id])
