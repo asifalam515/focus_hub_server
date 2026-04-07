@@ -23,8 +23,24 @@ const updateTask = async (taskId: string, payload: any) => {
   });
   return task;
 };
+const deleteTask = async (taskId: string) => {
+  await prisma.task.delete({
+    where: { id: taskId },
+  });
+};
+const getInboxTasksForUser = async (userId: string) => {
+  const tasks = await prisma.task.findMany({
+    where: {
+      userId,
+      status: "inbox",
+    },
+  });
+  return tasks;
+};
 export const TaskService = {
   getTasksForUser,
   createTask,
   updateTask,
+  deleteTask,
+  getInboxTasksForUser,
 };

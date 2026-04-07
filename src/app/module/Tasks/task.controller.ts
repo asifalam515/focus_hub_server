@@ -59,8 +59,46 @@ const updateTask = async (req: Request, res: Response) => {
     });
   }
 };
+const deleteTask = async (req: Request, res: Response) => {
+  try {
+    const taskId = req.params.id as string;
+    await TaskService.deleteTask(taskId);
+    sendResponse(res, {
+      statusCode: 200,
+      message: "Task deleted successfully",
+      success: true,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: 500,
+      message: error.message || "Failed to delete task",
+      success: false,
+    });
+  }
+};
+const getInboxTasksForUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id as string;
+    const tasks = await TaskService.getInboxTasksForUser(userId);
+    sendResponse(res, {
+      statusCode: 200,
+      message: "Inbox tasks retrieved successfully",
+      data: tasks,
+      success: true,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: 500,
+      message: error.message || "Failed to retrieve inbox tasks",
+      success: false,
+    });
+  }
+};
+
 export const TaskController = {
   getTasksByUser,
   createTask,
   updateTask,
+  deleteTask,
+  getInboxTasksForUser,
 };
