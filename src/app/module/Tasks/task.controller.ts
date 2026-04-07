@@ -94,6 +94,44 @@ const getInboxTasksForUser = async (req: Request, res: Response) => {
     });
   }
 };
+const addInboxTask = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id as string;
+    const payload = req.body;
+    const task = await TaskService.addInboxTask(userId, payload);
+    sendResponse(res, {
+      statusCode: 201,
+      message: "Inbox task added successfully",
+      data: task,
+      success: true,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: 500,
+      message: error.message || "Failed to add inbox task",
+      success: false,
+    });
+  }
+};
+const moveInboxTask = async (req: Request, res: Response) => {
+  try {
+    const taskId = req.params.id as string;
+    const { status } = req.body;
+    const task = await TaskService.movedInboxTask(taskId, status);
+    sendResponse(res, {
+      statusCode: 200,
+      message: "Inbox task moved successfully",
+      data: task,
+      success: true,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: 500,
+      message: error.message || "Failed to move inbox task",
+      success: false,
+    });
+  }
+};
 
 export const TaskController = {
   getTasksByUser,
@@ -101,4 +139,6 @@ export const TaskController = {
   updateTask,
   deleteTask,
   getInboxTasksForUser,
+  addInboxTask,
+  moveInboxTask,
 };
