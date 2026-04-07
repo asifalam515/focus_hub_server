@@ -6,6 +6,7 @@ import { AuthRouter } from "./app/module/Auth/auth.router";
 import { BookRouter } from "./app/module/Book/book.router";
 import { GoalRouter } from "./app/module/Goal/goal.router";
 import { HabitRouter } from "./app/module/Habit/habit.router";
+import { NotificationRouter } from "./app/module/Notification/notification.router";
 import { PomodoroRouter } from "./app/module/Pomodaro/pomodaro.router";
 import { ProjectRouter } from "./app/module/Projects/project.router";
 import { TaskRouter } from "./app/module/Tasks/task.router";
@@ -33,6 +34,8 @@ app.use("/api/v1/goals", GoalRouter);
 app.use("/api/v1/books", BookRouter);
 // poomodaro related api
 app.use("/api/v1/pomodoro", PomodoroRouter);
+// notification related api
+app.use("/api/v1/notifications", NotificationRouter);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript + Express!");
 });
