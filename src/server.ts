@@ -3,6 +3,8 @@ import type { Application, Request, Response } from "express";
 import express from "express";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { AuthRouter } from "./app/module/Auth/auth.router";
+import { BookRouter } from "./app/module/Book/book.router";
+import { GoalRouter } from "./app/module/Goal/goal.router";
 import { HabitRouter } from "./app/module/Habit/habit.router";
 import { ProjectRouter } from "./app/module/Projects/project.router";
 import { TaskRouter } from "./app/module/Tasks/task.router";
@@ -24,6 +26,10 @@ app.use("/api/v1/tasks", TaskRouter);
 app.use("/api/v1/projects", ProjectRouter);
 // habit router
 app.use("/api/v1/habits", HabitRouter);
+// goals related api
+app.use("/api/v1/goals", GoalRouter);
+// books related api
+app.use("/api/v1/books", BookRouter);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript + Express!");
 });
