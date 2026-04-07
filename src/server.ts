@@ -3,6 +3,7 @@ import type { Application, Request, Response } from "express";
 import express from "express";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { AuthRouter } from "./app/module/Auth/auth.router";
+import { ProjectRouter } from "./app/module/Projects/project.router";
 import { TaskRouter } from "./app/module/Tasks/task.router";
 const app: Application = express();
 const port = 5000; // The port your express server will be running on.
@@ -18,6 +19,8 @@ app.use(cors());
 app.use("/api/v1/auth", AuthRouter);
 // tasks router
 app.use("/api/v1/tasks", TaskRouter);
+// projects router
+app.use("/api/v1/projects", ProjectRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript + Express!");
